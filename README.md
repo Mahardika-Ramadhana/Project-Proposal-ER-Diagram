@@ -31,21 +31,23 @@ A comprehensive database-driven web application for managing library book borrow
 ### Entity-Relationship Diagram (ERD)
 ```mermaid
 erDiagram
-    BOOK {
-        string book_id PK
-        string title
-        string author
-        string genre
-        boolean is_available
-    }
-    
     MEMBER {
         string member_id PK
         string name
         string email
         string phone
+        date membership_date
     }
-    
+
+    BOOK {
+        string book_id PK
+        string title
+        string author
+        string genre
+        int publication_year
+        boolean is_available
+    }
+
     LOAN {
         string loan_id PK
         date borrow_date
@@ -53,8 +55,16 @@ erDiagram
         date return_date
     }
 
-    BOOK ||--o{ LOAN : "is_borrowed_as"
-    MEMBER ||--o{ LOAN : "borrows_through"
+    FINE {
+        string fine_id PK
+        float amount
+        string paid_status
+        date fine_date
+    }
+
+    MEMBER ||--o{ LOAN : "Melakukan"
+    BOOK   ||--o{ LOAN : "Terdapat pada"
+    LOAN   ||--|| FINE : "Menghasilkan"
 ```
 
 ### Relational Schema
